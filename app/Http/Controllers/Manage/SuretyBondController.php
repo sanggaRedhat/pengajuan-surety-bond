@@ -6,6 +6,7 @@ use App\Helpers\IDDateFormat;
 use App\Models\SuretyBond;
 use App\Models\SuretyBondProgres;
 use App\Models\SuretyBondRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\DataTables;
@@ -36,13 +37,13 @@ class SuretyBondController extends \App\Http\Controllers\Controller
             ->addColumn('aksi', function($query) {
                 $aksi = '';
                 if ($query->status == 'Pending Request') {
-                    $aksi .= '<a href="'.route('surety-bond.show', [$query->slug, 'req-id' => $query->request->id, 'act' => 'proses-pengajuan']).'" class="btn btn-xs btn-info mr-1">Proses</a>';
+                    $aksi .= '<a href="'.route('surety-bond.show', [$query->slug, 'req-id' => $query->request->last()->id, 'act' => 'proses-pengajuan', 'rd' => Gate::denies('is-user') ? 'redirected-true' : 'null']).'" class="btn btn-xs btn-info mr-1">Proses</a>';
                     if (Gate::denies('is-user')) {
                         $aksi .= '<a href="'.route('surety-bond.show', $query->slug).'" class="btn btn-xs btn-dark mr-1">Detail</a>';
                     }
                 } elseif ($query->status == 'Proses') {
                     $aksi .= '<a href="'.route('surety-bond.show', [$query->slug, 'act' => 'lanjut-proses-pengajuan']).'" class="btn btn-xs btn-info mr-1">Lanjut Proses</a>';
-                    if ($query->request->requested_to == auth()->id()) {} else {
+                    if ($query->request->last()->requested_to == auth()->id()) {} else {
                         $aksi .= '<a href="'.route('surety-bond.show', $query->slug).'" class="btn btn-xs btn-dark mr-1">Detail</a>';
                     }
                 } elseif ($query->status == 'Baru') {
@@ -65,17 +66,12 @@ class SuretyBondController extends \App\Http\Controllers\Controller
             if ($request->get('act') == 'proses-pengajuan') {
                 $suretyBond->update(['status' => 'Proses']);
                 
-                if ($request->has('req-id')) {
-                    $suretyBond->request()->update([
-                        'is_accepted' => 1,
-                        'requested_to' => auth()->id(),
-                        'accepted_at' => now()
+                if ($request->has('rd') && $request->get('rd') == 'redirected-true') {
+                    SuretyBondRequest::where('id', $request->get('req-id'))->update([
+                        'is_redirected' => 1,
                     ]);
                 } else {
-                    $suretyBond->request()->create([
-                        'requested_by' => auth()->id(),
-                        'requested_to' => auth()->id(),
-                        'requested_at' => now(),
+                    SuretyBondRequest::where('id', $request->get('req-id'))->update([
                         'is_accepted' => 1,
                         'accepted_at' => now()
                     ]);
@@ -109,7 +105,7 @@ class SuretyBondController extends \App\Http\Controllers\Controller
                 SuretyBondProgres::create([
                     'surety_bond_id' => $request->srb_id,
                     'user_id' => auth()->id(),
-                    'status' => 'Pending Request',
+                    'status' => 'Pending Request ('.User::where('id', $request->user_id)->first()->name.')',
                 ]);
                 SuretyBond::where('id', $request->srb_id)->update(['status' => 'Pending Request']);
             }
@@ -134,9 +130,49 @@ class SuretyBondController extends \App\Http\Controllers\Controller
         $suretyBond->progres()->create([
             'user_id' => auth()->id(),
             'status' => $request->status,
+            'catatan' => $request->catatan,
         ]);
 
         return redirect()->route('surety-bond.show', $suretyBond->slug);
+    }
+
+    public function rejected(SuretyBond $suretyBond)
+    {
+        $suretyBond->update([
+            'status' => 'Ditolak',
+        ]);
+        $suretyBond->progres()->create([
+            'user_id' => auth()->id(),
+            'status' => 'Ditolak',
+        ]);
+
+        return response()->json(['status'  => true]);
+    }
+
+    public function accepted(SuretyBond $suretyBond)
+    {
+        $suretyBond->update([
+            'status' => 'Diterima',
+        ]);
+        $suretyBond->progres()->create([
+            'user_id' => auth()->id(),
+            'status' => 'Diterima',
+        ]);
+
+        return response()->json(['status'  => true]);
+    }
+
+    public function redirected(Request $request, SuretyBond $suretyBond)
+    {
+        SuretyBondRequest::where('id', $request->req_id)->update([
+            'is_redirected' => 1,
+        ]);
+
+        $suretyBond->update([
+            'status' => 'Diterima',
+        ]);
+
+        return response()->json(['status'  => true]);
     }
 
 }

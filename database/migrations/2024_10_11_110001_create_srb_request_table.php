@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamp('requested_at')->nullable();
             $table->foreignId('requested_to')->unsigned()->nullable()->references('id')->on('users');
             $table->boolean('is_accepted')->default(0);
+            $table->boolean('is_redirected')->default(0);
             $table->timestamp('accepted_at')->nullable();
             $table->timestamps();
         });

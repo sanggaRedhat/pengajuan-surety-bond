@@ -19,16 +19,35 @@ class PublicHomeController extends \App\Http\Controllers\Controller
         return view('public.form');
     }
 
+    public function status(Request $request)
+    {
+        $data['suretyBond'] = SuretyBond::where('slug', $request->slug)->with('progres')->first();
+
+        abort_if($data['suretyBond'] == null, 404);
+        
+        if ($data['suretyBond']->status == 'Baru') {
+            SuretyBond::where('id', $data['suretyBond']->id)->update(['status' => 'Diterima']);
+            SuretyBondProgres::create(['surety_bond_id' => $data['suretyBond']->id,'status' => 'Diterima']);
+            return redirect()->route('public-home.status', $request->slug)->with([
+                'status'  => true,
+                'message' => 'Konfirmasi berhasil, terima kasih.'
+            ]);
+        }
+        return view('public.status', $data);
+    }
+
     public function sendRequest(Request $request)
     {
-        ini_set('post_max_size', '100M');
-        ini_set('upload_max_filesize', '100M');
+        ini_set('post_max_size', '50M');
+        ini_set('upload_max_filesize', '50M');
 
         $request->validate([
             'nama_pemohon'          => 'required|string',
+            'jabatan_pemohon'       => 'required|string',
             'email'                 => 'required|email',
             'nomor_pemohon'         => 'required|numeric',
             'nama_perusahaan'       => 'required|string',
+            'nama_direktur_perusahaan' => 'required|string',
             'pekerjaan'             => 'required|string',
             'nilai_kontrak'         => 'required|numeric',
             'nilai_jaminan_persen'  => 'required|numeric',
@@ -37,20 +56,17 @@ class PublicHomeController extends \App\Http\Controllers\Controller
             'jenis_penjaminan'      => 'required|in:Jaminan Penawaran,Jaminan Pelaksanaan,Jaminan Uang Muka,Jaminan Pemeliharaan',
             'berkas_jaminan'        => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
             'berkas_permohonan'     => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
-            'berkas_umum_1'         => 'nullable|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
-            'berkas_umum_2'         => 'nullable|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
-            'berkas_umum_3'         => 'nullable|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
-            'berkas_umum_4'         => 'nullable|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
-            'berkas_umum_5'         => 'nullable|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
-            'berkas_umum_6'         => 'nullable|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
-            'berkas_umum_7'         => 'nullable|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
-            'berkas_umum_8'         => 'nullable|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
-            'berkas_umum_9'         => 'nullable|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
-            'berkas_perorangan_1'   => 'nullable|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
-            'berkas_perorangan_2'   => 'nullable|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
-            'berkas_perorangan_3'   => 'nullable|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
-            'berkas_perorangan_4'   => 'nullable|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
-            'berkas_khusus_1'       => 'nullable|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
+            'berkas_pengalaman_pekerjaan' => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
+            'berkas_umum_1'         => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
+            'berkas_umum_2'         => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
+            'berkas_umum_3'         => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
+            'berkas_umum_4'         => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
+            'berkas_umum_5'         => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
+            'berkas_umum_6'         => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
+            'berkas_perorangan_1'   => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
+            'berkas_perorangan_2'   => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
+            'berkas_perorangan_3'   => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
+            'berkas_khusus_1'       => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
         ]);
 
         try {
@@ -60,19 +76,16 @@ class PublicHomeController extends \App\Http\Controllers\Controller
 
             $berkas1 = $berkasHelper->filenameHandler($request, 'berkas_jaminan', 'jaminan', $slug);
             $berkas2 = $berkasHelper->filenameHandler($request, 'berkas_permohonan', 'permohonan', $slug);
+            $berkas3 = $berkasHelper->filenameHandler($request, 'berkas_pengalaman_pekerjaan', 'pengalaman-pekerjaan', $slug);
             $berkasUmum1 = $berkasHelper->filenameHandler($request, 'berkas_umum_1', 'berkas-umum-1', $slug);
             $berkasUmum2 = $berkasHelper->filenameHandler($request, 'berkas_umum_2', 'berkas-umum-2', $slug);
             $berkasUmum3 = $berkasHelper->filenameHandler($request, 'berkas_umum_3', 'berkas-umum-3', $slug);
             $berkasUmum4 = $berkasHelper->filenameHandler($request, 'berkas_umum_4', 'berkas-umum-4', $slug);
             $berkasUmum5 = $berkasHelper->filenameHandler($request, 'berkas_umum_5', 'berkas-umum-5', $slug);
             $berkasUmum6 = $berkasHelper->filenameHandler($request, 'berkas_umum_6', 'berkas-umum-6', $slug);
-            $berkasUmum7 = $berkasHelper->filenameHandler($request, 'berkas_umum_7', 'berkas-umum-7', $slug);
-            $berkasUmum8 = $berkasHelper->filenameHandler($request, 'berkas_umum_8', 'berkas-umum-8', $slug);
-            $berkasUmum9 = $berkasHelper->filenameHandler($request, 'berkas_umum_9', 'berkas-umum-9', $slug);
             $berkasPerorangan1 = $berkasHelper->filenameHandler($request, 'berkas_perorangan_1', 'berkas-perorangan-1', $slug);
             $berkasPerorangan2 = $berkasHelper->filenameHandler($request, 'berkas_perorangan_2', 'berkas-perorangan-2', $slug);
             $berkasPerorangan3 = $berkasHelper->filenameHandler($request, 'berkas_perorangan_3', 'berkas-perorangan-3', $slug);
-            $berkasPerorangan4 = $berkasHelper->filenameHandler($request, 'berkas_perorangan_4', 'berkas-perorangan-4', $slug);
             $berkasKhusus1 = $berkasHelper->filenameHandler($request, 'berkas_khusus_1', 'berkas-khusus-1', $slug);
 
             $subcode = 'TIKET-SRBJK.'.date('y-m.');
@@ -85,9 +98,11 @@ class PublicHomeController extends \App\Http\Controllers\Controller
             $data = SuretyBond::create([
                 'no_tiket'              => $no_tiket,
                 'nama_pemohon'          => $request->nama_pemohon,
+                'jabatan_pemohon'       => $request->jabatan_pemohon,
                 'email_pemohon'         => $request->email,
                 'nomor_pemohon'         => $request->nomor_pemohon,
                 'nama_perusahaan'       => $request->nama_perusahaan,
+                'nama_direktur_perusahaan' => $request->nama_direktur_perusahaan,
                 'pekerjaan'             => $request->pekerjaan,
                 'nilai_kontrak'         => $request->nilai_kontrak,
                 'nilai_jaminan_persen'  => $request->nilai_jaminan_persen,
@@ -97,19 +112,16 @@ class PublicHomeController extends \App\Http\Controllers\Controller
                 'slug'                  => $slug,
                 'berkas_jaminan'        => $berkas1,
                 'berkas_permohonan'     => $berkas2,
+                'berkas_pengalaman_pekerjaan' => $berkas3,
                 'berkas_umum_1'         => $berkasUmum1,
                 'berkas_umum_2'         => $berkasUmum2,
                 'berkas_umum_3'         => $berkasUmum3,
                 'berkas_umum_4'         => $berkasUmum4,
                 'berkas_umum_5'         => $berkasUmum5,
                 'berkas_umum_6'         => $berkasUmum6,
-                'berkas_umum_7'         => $berkasUmum7,
-                'berkas_umum_8'         => $berkasUmum8,
-                'berkas_umum_9'         => $berkasUmum9,
                 'berkas_perorangan_1'   => $berkasPerorangan1,
                 'berkas_perorangan_2'   => $berkasPerorangan2,
                 'berkas_perorangan_3'   => $berkasPerorangan3,
-                'berkas_perorangan_4'   => $berkasPerorangan4,
                 'berkas_khusus_1'       => $berkasKhusus1,
             ]);
 
@@ -117,19 +129,16 @@ class PublicHomeController extends \App\Http\Controllers\Controller
                 SuretyBondProgres::create(['surety_bond_id' => $data->id,'status' => 'Baru']);
                 $berkasHelper->uploadHandler($request, 'berkas_jaminan', $berkas1);
                 $berkasHelper->uploadHandler($request, 'berkas_permohonan', $berkas2);
+                $berkasHelper->uploadHandler($request, 'berkas_pengalaman_pekerjaan', $berkas3);
                 $berkasHelper->uploadHandler($request, 'berkas_umum_1', $berkasUmum1);
                 $berkasHelper->uploadHandler($request, 'berkas_umum_2', $berkasUmum2);
                 $berkasHelper->uploadHandler($request, 'berkas_umum_3', $berkasUmum3);
                 $berkasHelper->uploadHandler($request, 'berkas_umum_4', $berkasUmum4);
                 $berkasHelper->uploadHandler($request, 'berkas_umum_5', $berkasUmum5);
                 $berkasHelper->uploadHandler($request, 'berkas_umum_6', $berkasUmum6);
-                $berkasHelper->uploadHandler($request, 'berkas_umum_7', $berkasUmum7);
-                $berkasHelper->uploadHandler($request, 'berkas_umum_8', $berkasUmum8);
-                $berkasHelper->uploadHandler($request, 'berkas_umum_9', $berkasUmum9);
                 $berkasHelper->uploadHandler($request, 'berkas_perorangan_1', $berkasPerorangan1);
                 $berkasHelper->uploadHandler($request, 'berkas_perorangan_2', $berkasPerorangan2);
                 $berkasHelper->uploadHandler($request, 'berkas_perorangan_3', $berkasPerorangan3);
-                $berkasHelper->uploadHandler($request, 'berkas_perorangan_4', $berkasPerorangan4);
                 $berkasHelper->uploadHandler($request, 'berkas_khusus_1', $berkasKhusus1);
             }
 
@@ -139,15 +148,18 @@ class PublicHomeController extends \App\Http\Controllers\Controller
                 'data_pengajuan' => [
                     'no_tiket'              => $data->no_tiket,
                     'nama_pemohon'          => $data->nama_pemohon,
+                    'jabatan_pemohon'       => $data->jabatan_pemohon,
                     'email_pemohon'         => $data->email_pemohon,
                     'nomor_pemohon'         => $data->nomor_pemohon,
                     'nama_perusahaan'       => $data->nama_perusahaan,
+                    'nama_direktur_perusahaan' => $data->nama_direktur_perusahaan,
                     'pekerjaan'             => $data->pekerjaan,
                     'nilai_kontrak'         => $data->nilai_kontrak,
                     'nilai_jaminan_persen'  => $data->nilai_jaminan_persen,
                     'jangka_waktu'          => $data->jangka_waktu,
                     'jenis_penjaminan'      => $data->jenis_penjaminan,
                     'created_at'            => $data->created_at,
+                    'slug'                  => $data->slug,
                 ],
             ]);
         } catch (\Throwable $th) {

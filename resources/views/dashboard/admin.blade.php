@@ -52,7 +52,7 @@
                                 <th>Nilai Kontrak</th>
                                 <th width="200px;">Tgl Diajukan</th>
                                 <th width="150px;">Status</th>
-                                <th width="150px;">Kepada</th>
+                                <th width="180px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -127,6 +127,67 @@
 
         function modalRequestTo(id) {
             $('#srb-id-request').val(id)
+        }
+
+        function confirmRejected(id) {
+            if (confirm("Tolak pengajuan?") == true) {
+                $.ajax({
+                    type: "put",
+                    url: `{{ url('admin/manage/surety-bond/rejected') }}/`+id,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.status) {
+                            $('#dataTable').DataTable().ajax.reload();
+                        }
+                    }
+                });
+            }
+        }
+
+        function confirmAccepted(id) {
+            if (confirm("Terima pengajuan?") == true) {
+                $.ajax({
+                    type: "put",
+                    url: `{{ url('admin/manage/surety-bond/accepted') }}/`+id,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.status) {
+                            $('#dataTable').DataTable().ajax.reload();
+                        }
+                    }
+                });
+            }
+        }
+
+        function confirmRedirected(id, req_id) {
+            if (confirm("Alihkan untuk diproses?") == true) {
+                $.ajax({
+                    type: "put",
+                    url: `{{ url('admin/manage/surety-bond/redirected') }}/`+id,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "req_id": req_id,
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.status) {
+                            $('#dataTable').DataTable().ajax.reload();
+                            $('#dataTable2').DataTable().ajax.reload();
+                        }
+                        @if ($pengajuan->count() == 0)
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
+                        @endif
+                    }
+                });
+            }
         }
 
         $("#send-request").on('click', function(e) {
@@ -238,8 +299,8 @@
                         className: 'dt-body-center'
                     },
                     {
-                        data: 'kepada',
-                        name: 'kepada',
+                        data: 'aksi',
+                        name: 'aksi',
                         className: 'dt-body-center'
                     },
                 ]

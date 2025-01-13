@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('surety_bond_id')->unsigned()->nullable()->references('id')->on('surety_bond');
             $table->foreignId('user_id')->unsigned()->nullable()->references('id')->on('users');
-            $table->enum('status', ['Baru', 'Pending Request', 'Proses', 'Selesai', 'Dibatalkan'])->default('Baru');
+            $table->string('status')->default('Baru');
+            $table->text('catatan')->nullable();
             $table->timestamps();
         });
     }

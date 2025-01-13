@@ -27,7 +27,7 @@ class SuretyBond extends Model
 
     public function request()
     {
-        return $this->hasOne(SuretyBondRequest::class, 'surety_bond_id', 'id');
+        return $this->hasMany(SuretyBondRequest::class, 'surety_bond_id', 'id');
     }
 
     public function progres()
@@ -42,7 +42,7 @@ class SuretyBond extends Model
                 $textColor = 'text-success';
                 break;
 
-            case 'Proses':
+            case 'Proses' : case 'Diterima' :
                 $textColor = 'text-orange';
                 break;
                 

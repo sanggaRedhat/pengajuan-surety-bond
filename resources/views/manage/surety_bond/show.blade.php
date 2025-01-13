@@ -6,15 +6,17 @@
     <div class="row">
         <div class="col-md-12">
             <x-flash-message />
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-12">
                     <div class="card card-success shadow-sm">
                         <div class="card-header">
                             <h3 class="card-title">Detail dan Berkas Pengajuan</h3>
-                            <div class="float-right">
+                            <div class="float-right d-print-none">
                                 <a href="{{ route('surety-bond.index')}}" class="btn btn-sm btn-dark"><i class="fa fa-arrow-left mr-1"></i> Kembali</a>
-                                @if ($suretyBond->status != 'Selesai' && $suretyBond->status != 'Dibatalkan')
-                                    <a href="#" class="btn btn-sm btn-dark ml-1" data-toggle="modal" data-target="#modalCatatan"><i class="fa fa-check mr-1"></i> Selesai Diproses</a>
+                                @if ($suretyBond->progres->last()->user_id == auth()->id())
+                                    @if ($suretyBond->status != 'Selesai' && $suretyBond->status != 'Dibatalkan' && $suretyBond->status != 'Ditolak')
+                                        <a href="#" class="btn btn-sm btn-dark ml-1" data-toggle="modal" data-target="#modalCatatan"><i class="fa fa-file mr-1"></i> Update Progres</a>
+                                    @endif
                                 @endif
                             </div>
                         </div>
@@ -28,9 +30,14 @@
                                             <td>{{ $suretyBond->no_tiket }}</td>
                                         </tr>
                                         <tr>
-                                            <td width="35%">Nama yang mengajukan</td>
+                                            <td width="35%">Nama</td>
                                             <td width="10px">:</td>
                                             <td>{{ $suretyBond->nama_pemohon }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td width="35%">Jabatan</td>
+                                            <td width="10px">:</td>
+                                            <td>{{ $suretyBond->jabatan_pemohon }}</td>
                                         </tr>
                                         <tr>
                                             <td width="35%">Nomor</td>
@@ -60,6 +67,11 @@
                                             <td width="35%">Perusahaan</td>
                                             <td width="10px">:</td>
                                             <td>{{ $suretyBond->nama_perusahaan }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td width="35%">Nama Direktur</td>
+                                            <td width="10px">:</td>
+                                            <td>{{ $suretyBond->nama_direktur_perusahaan }}</td>
                                         </tr>
                                         <tr>
                                             <td width="35%">Pekerjaan</td>
@@ -105,9 +117,14 @@
                                             <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_jaminan }}" /></td>
                                         </tr>
                                         <tr>
-                                            <td width="85%" colspan="2">Berkas Permohonan</td>
+                                            <td width="85%" colspan="2">Surat Permohonan</td>
                                             <td width="10px">:</td>
                                             <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_permohonan }}" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="85%" colspan="2">Surat Pengalaman Pekerjaan</td>
+                                            <td width="10px">:</td>
+                                            <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_pengalaman_pekerjaan }}" /></td>
                                         </tr>
                                         <tr>
                                             <td width="85%" colspan="2"><b>Syarat Umum - Badan Usaha</b></td>
@@ -128,50 +145,38 @@
                                         </tr>
                                         <tr>
                                             <td width="10px">-</td>
-                                            <td width="85%">Copy TDP (Tanda Daftar Perusahaan)</td>
+                                            <td width="85%">Copy Nomor Pokok Wajib Pajak (NPWP)</td>
                                             <td width="10px">:</td>
                                             <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_umum_3 }}" /></td>
                                         </tr>
                                         <tr>
                                             <td width="10px">-</td>
-                                            <td width="85%">Copy Surat Izin Usaha Perdagangan (SIUP) / Surat Izin Usaha Jasa</td>
+                                            <td width="85%">Copy Nomor Induk Berusaha (NIB)</td>
                                             <td width="10px">:</td>
                                             <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_umum_4 }}" /></td>
                                         </tr>
                                         <tr>
                                             <td width="10px">-</td>
-                                            <td width="85%">Copy Nomor Pokok Wajib Pajak (NPWP)</td>
+                                            <td width="85%">Surat Keterangan Domisili</td>
                                             <td width="10px">:</td>
                                             <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_umum_5 }}" /></td>
                                         </tr>
                                         <tr>
                                             <td width="10px">-</td>
-                                            <td width="85%">Copy Nomor Induk Berusaha (NIB)</td>
-                                            <td width="10px">:</td>
-                                            <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_umum_6 }}" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="10px">-</td>
-                                            <td width="85%">Surat Keterangan Domisili</td>
-                                            <td width="10px">:</td>
-                                            <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_umum_7 }}" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="10px">-</td>
-                                            <td width="85%">Copy Tanda Keanggotaan</td>
-                                            <td width="10px">:</td>
-                                            <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_umum_8 }}" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="10px">-</td>
                                             <td width="85%">Copy Neraca dan Laba Rugi Principal untuk 2 (dua) tahun terakhir</td>
                                             <td width="10px">:</td>
-                                            <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_umum_9 }}" /></td>
+                                            <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_umum_6 }}" /></td>
                                         </tr>
                                     </table>
                                 </div>
                                 <div class="col">
                                     <table class="w-100">
+                                        <tr>
+                                            <td width=""></td>
+                                            <td width=""></td>
+                                            <td width="10px"></td>
+                                            <td>&nbsp;</td>
+                                        </tr>
                                         <tr>
                                             <td width=""></td>
                                             <td width=""></td>
@@ -203,21 +208,15 @@
                                         </tr>
                                         <tr>
                                             <td width="10px">-</td>
-                                            <td width="85%">Copy Surat Izin Usaha Perdagangan (SIUP) / Surat Izin Usaha Jasa</td>
+                                            <td width="85%">Copy Nomor Pokok Wajib Pajak (NPWP)</td>
                                             <td width="10px">:</td>
                                             <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_perorangan_2 }}" /></td>
                                         </tr>
                                         <tr>
                                             <td width="10px">-</td>
-                                            <td width="85%">Copy Nomor Pokok Wajib Pajak (NPWP)</td>
-                                            <td width="10px">:</td>
-                                            <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_perorangan_3 }}" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="10px">-</td>
                                             <td width="85%">Surat Keterangan Domisili</td>
                                             <td width="10px">:</td>
-                                            <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_perorangan_4 }}" /></td>
+                                            <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_perorangan_3 }}" /></td>
                                         </tr>
                                         <tr>
                                             <td width=""></td>
@@ -277,8 +276,7 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->user ? $item->user->name : '-' }}</td>
-                                                <td>{{ $item->status }}
-                                                {{ $item->status == 'Pending Request' ? '('.$suretyBond->request->requestedTo->name.')' : '' }}</td>
+                                                <td>{{ $item->status }}{{ $item->catatan ? ' ('.$item->catatan.')' : '' }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y | H:i') }}</td>
                                             </tr>
                                         @endforeach
@@ -291,13 +289,16 @@
                 @endcannot
             </div>
             <!-- /.card -->
+            <div class="d-none d-print-inline">
+                <span class="text-muted">Dicetak pada : {{ date('d-m-Y H:i') }} WIB</span>
+            </div>
         </div>
     </div>    
     <div class="modal fade" id="modalCatatan" tabindex="-1" role="dialog" aria-labelledby="modalCatatanLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="modalCatatanLabel">Tambah Catatan</h5>
+                <h5 class="modal-title" id="modalCatatanLabel">Update Progres & Tambah Catatan</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -307,8 +308,12 @@
                         @csrf
                         @method('put')
                         <select class="form-control custom-select mb-2" name="status">
+                            <option value="Proses">Proses</option>
                             <option value="Selesai">Selesai</option>
-                            <option value="Dibatalkan">Dibatalkan</option>
+                            @cannot('is-user')
+                                <option value="Ditolak">Ditolak</option>
+                                <option value="Dibatalkan">Dibatalkan</option>
+                            @endcannot
                         </select>
                         <input class="form-control" name="catatan" placeholder="Catatan / Nomor Sertifikat Penjaminan" required/>
                     </div>

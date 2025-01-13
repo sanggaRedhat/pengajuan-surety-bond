@@ -16,6 +16,7 @@ Route::get('/', function(){
 Route::prefix('surety-bond')->group(function() {
     Route::get('/', [PublicHomeController::class, 'index'])->name('public-home.index');
     Route::post('/', [PublicHomeController::class, 'sendRequest'])->name('public-home.sendRequest');
+    Route::get('/status/{slug}', [PublicHomeController::class, 'status'])->name('public-home.status');
 });
 
 Route::prefix('login')->middleware('guest')->group(function() {
@@ -55,5 +56,8 @@ Route::prefix('admin')->middleware('auth')->group(function() {
         Route::get('surety-bond/{surety_bond}', [SuretyBondController::class, 'show'])->name('surety-bond.show');
         Route::post('surety-bond/request-to', [SuretyBondController::class, 'requestTo'])->name('surety-bond.requestTo');
         Route::put('surety-bond/update-status/{surety_bond}', [SuretyBondController::class, 'updateStatus'])->name('surety-bond.updateStatus');;
+        Route::put('surety-bond/rejected/{surety_bond}', [SuretyBondController::class, 'rejected'])->name('surety-bond.rejected');;
+        Route::put('surety-bond/accepted/{surety_bond}', [SuretyBondController::class, 'accepted'])->name('surety-bond.accepted');;
+        Route::put('surety-bond/redirected/{surety_bond}', [SuretyBondController::class, 'redirected'])->name('surety-bond.redirected');;
     });
 });
