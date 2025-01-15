@@ -14,7 +14,7 @@
                             <div class="float-right d-print-none">
                                 <a href="{{ route('surety-bond.index')}}" class="btn btn-sm btn-dark"><i class="fa fa-arrow-left mr-1"></i> Kembali</a>
                                 @if ($suretyBond->progres->last()->user_id == auth()->id())
-                                    @if ($suretyBond->status != 'Selesai' && $suretyBond->status != 'Dibatalkan' && $suretyBond->status != 'Ditolak')
+                                    @if ($suretyBond->status == 'Proses')
                                         <a href="#" class="btn btn-sm btn-dark ml-1" data-toggle="modal" data-target="#modalCatatan"><i class="fa fa-file mr-1"></i> Update Progres</a>
                                     @endif
                                 @endif
