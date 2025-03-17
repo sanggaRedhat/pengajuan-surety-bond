@@ -108,7 +108,7 @@
                             <div class="form-group">
                                 <label class="mb-1">Surat Permohonan <span class="text-danger">*</span></label>
                                 <div class="mb-2">
-                                    <span class="font-weight-bold text-sm font-italic">- <a href="https://goog.gl" target="_blank"><u>Download surat permohonan disini.</u></a></span>
+                                    <span class="font-weight-bold text-sm font-italic">- <a href="https://drive.google.com/file/d/1Qbf4oTSWRCiBKXBt59GYV9R205KzOJ4b/view?usp=drive_link" target="_blank"><u>Download surat permohonan disini.</u></a></span>
                                 </div>
                                 <div class="input-group">
                                     <div class="custom-file">
@@ -118,13 +118,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="mb-1">Surat Pengalaman Pekerjaan <span class="text-danger">*</span></label>
+                                <label class="mb-1">Surat Pengalaman Pekerjaan </label>
                                 <div class="mb-2">
                                     <span class="font-weight-bold text-sm font-italic">- Minimal 3 pekerjaan yang sudah diselesaikan.</span>
                                 </div>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-pengalaman-pekerjaan" name="berkas_pengalaman_pekerjaan" required>
+                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-pengalaman-pekerjaan" name="berkas_pengalaman_pekerjaan">
                                         <label class="custom-file-label" for="berkas-pengalaman-pekerjaan">Choose file...</label>
                                     </div>
                                 </div>
@@ -133,86 +133,47 @@
                                 <h5 class="font-weight-bold">Syarat Umum - Badan Usaha</h5>
                             </div>
                             <div class="form-group">
-                                <label>Copy Akta Pendirian Perusahaan, berikut perubahannya <span class="text-danger">*</span></label>
+                                <label>Copy Akta Pendirian Perusahaan, berikut perubahannya </label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-umum-1" name="berkas_umum_1" required>
+                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-umum-1" name="berkas_umum_1">
                                         <label class="custom-file-label" for="berkas-umum-1">Choose file...</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Copy KTP (Kartu Tanda Penduduk) <span class="text-danger">*</span></label>
+                                <label>Copy KTP (Kartu Tanda Penduduk) </label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-umum-2" name="berkas_umum_2" required>
+                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-umum-2" name="berkas_umum_2">
                                         <label class="custom-file-label" for="berkas-umum-2">Choose file...</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Copy Nomor Pokok Wajib Pajak (NPWP) <span class="text-danger">*</span></label>
+                                <label>Copy Nomor Pokok Wajib Pajak (NPWP) </label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-umum-3" name="berkas_umum_3" required>
+                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-umum-3" name="berkas_umum_3">
                                         <label class="custom-file-label" for="berkas-umum-3">Choose file...</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Copy Nomor Induk Berusaha (NIB) <span class="text-danger">*</span></label>
+                                <label>Copy Nomor Induk Berusaha (NIB) </label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-umum-4" name="berkas_umum_4" required>
+                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-umum-4" name="berkas_umum_4">
                                         <label class="custom-file-label" for="berkas-umum-4">Choose file...</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Surat Keterangan Domisili <span class="text-danger">*</span></label>
+                                <label>Copy Neraca dan Laba Rugi Principal untuk 2 (dua) tahun terakhir </label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-umum-5" name="berkas_umum_5" required>
+                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-umum-5" name="berkas_umum_5">
                                         <label class="custom-file-label" for="berkas-umum-5">Choose file...</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Copy Neraca dan Laba Rugi Principal untuk 2 (dua) tahun terakhir <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-umum-6" name="berkas_umum_6" required>
-                                        <label class="custom-file-label" for="berkas-umum-6">Choose file...</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-5 mb-3">
-                                <h5 class="font-weight-bold">Syarat Umum - Perorangan</h5>
-                            </div>
-                            <div class="form-group">
-                                <label>Copy KTP (Kartu Tanda Penduduk) <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-perorangan-1" name="berkas_perorangan_1" required>
-                                        <label class="custom-file-label" for="berkas-perorangan-1">Choose file...</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Copy Nomor Pokok Wajib Pajak (NPWP) <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-perorangan-2" name="berkas_perorangan_2" required>
-                                        <label class="custom-file-label" for="berkas-perorangan-2">Choose file...</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Surat Keterangan Domisili <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-perorangan-3" name="berkas_perorangan_3" required>
-                                        <label class="custom-file-label" for="berkas-perorangan-3">Choose file...</label>
                                     </div>
                                 </div>
                             </div>
@@ -220,10 +181,10 @@
                                 <h5 class="font-weight-bold">Syarat Khusus - Performance Bond</h5>
                             </div>
                             <div class="form-group">
-                                <label>Surat Penunjukan / Penetapan Pengumuman Lelang / Surat Perintah Kerja (SPK) Kontrak Kerja <span class="text-danger">*</span></label>
+                                <label>Surat Penunjukan / Penetapan Pengumuman Lelang / Surat Perintah Kerja (SPK) Kontrak Kerja </label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-khusus-1" name="berkas_khusus_1" required>
+                                        <input type="file" class="custom-file-input" accept=".zip,.rar,.pdf,.png,.jpg,.jpeg" id="berkas-khusus-1" name="berkas_khusus_1">
                                         <label class="custom-file-label" for="berkas-khusus-1">Choose file...</label>
                                     </div>
                                 </div>
@@ -297,22 +258,6 @@
                     @endif
                 </div>
             </div>
-            
-        </div>
-    </div>
-    <div class="modal fade" id="modalSpinner" tabindex="-1" role="dialog" aria-labelledby="modalSpinnerLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title d-flex m-auto" id="modalSpinnerLabel">Sedang Mengirim</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="my-2 pb-1 d-flex justify-content-center">
-                        <i class="fa fa-lg fa-spinner fa-pulse mr-1"></i> 
-                    </div>
-                    <p class="text-center m-0">Mohon tidak keluar jendela browser Anda sampai proses selesai.</p>
-                </div>
-            </div>
         </div>
     </div>
 @endsection
@@ -356,31 +301,6 @@
             allowMinus: false,
             removeMaskOnSubmit: true
         });
-
-        $('form[method=POST]').submit(function() {
-            $('button[type=submit]').prop('disable', true).html('Proses, tunggu...')
-            $('#modalSpinner').modal({show: true})
-        });
-
-        $('#modalSpinner').modal({backdrop: 'static', keyboard: true, show: false})
-
-        $(document).on('change', '.custom-file-input', function (event) {
-            $(this).next('.custom-file-label').html(event.target.files[0].name);
-            
-            var val = $(this).val().toLowerCase(),
-            regex = new RegExp("(.*?)\.(zip|rar|pdf|png|jpg|jpeg)$");
-
-            if (!(regex.test(val))) {
-                $(this).next('.custom-file-label').html('Choose file...');
-                return alert('Format file yang Anda masukkan tidak valid.');
-            }
-
-            const fileSize = event.target.files[0].size / 1024 / 1024;
-            if (fileSize > 100) {
-                $(this).next('.custom-file-label').html('Choose file...');
-                return alert('Ukuran file melebihi batas yang diizinkan, maks 100 MB.');
-            }
-        })
 
         $(document).on('click', 'input[type=reset]', function (event) {
             $('.custom-file-label').html('Choose file...');
