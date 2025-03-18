@@ -57,7 +57,7 @@ class PublicHomeController extends \App\Http\Controllers\Controller
             'berkas_jaminan'        => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
             'berkas_permohonan'     => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
             'berkas_pengalaman_pekerjaan' => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
-            'berkas_umum_1'         => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
+            'berkas_umum_1'         => 'required|file|max:'.$hs>maxFileSize.'|mimes:'.$this->fileFormat,
             'berkas_umum_2'         => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
             'berkas_umum_3'         => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,
             'berkas_umum_4'         => 'required|file|max:'.$this->maxFileSize.'|mimes:'.$this->fileFormat,

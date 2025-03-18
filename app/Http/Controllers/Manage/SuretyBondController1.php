@@ -16,11 +16,8 @@ class SuretyBondController extends \App\Http\Controllers\Controller
 
     public function index()
     {
-        $query = SuretyBond::latest()
-            ->whereNot('status', 'Baru')
-            ->whereNot('status', 'Diterima')
-            ->when(Gate::check('is-user'), function($query) {
-                return $query->whereHas('request', fn($query2) => $query2->where('requested_to', auth()->id()));
+        $query = SuretyBond::latest()->when(Gate::check('is-user'), function($query) {
+            return $query->whereHas('request', fn($query2) => $query2->where('requested_to', auth()->id()));
         })->get();
 
         if(request()->ajax()) {
@@ -46,9 +43,11 @@ class SuretyBondController extends \App\Http\Controllers\Controller
                     }
                 } elseif ($query->status == 'Proses') {
                     $aksi .= '<a href="'.route('surety-bond.show', [$query->slug, 'act' => 'lanjut-proses-pengajuan']).'" class="btn btn-xs btn-info mr-1">Lanjut Proses</a>';
-                    if (Gate::denies('is-user')) {
+                    if ($query->request->last()->requested_to == auth()->id()) {} else {
                         $aksi .= '<a href="'.route('surety-bond.show', $query->slug).'" class="btn btn-xs btn-dark mr-1">Detail</a>';
                     }
+                } elseif ($query->status == 'Baru') {
+                    $aksi .= '<a href="'.route('surety-bond.show', [$query->slug, 'act' => 'proses-pengajuan']).'" class="btn btn-xs btn-info mr-1">Proses</a>';
                 } else {
                     $aksi .= '<a href="'.route('surety-bond.show', $query->slug).'" class="btn btn-xs btn-dark mr-1">Detail</a>';
                 }

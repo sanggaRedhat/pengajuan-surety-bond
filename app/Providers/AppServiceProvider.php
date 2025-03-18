@@ -21,10 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        foreach (Role::all() as $item) {
-            Gate::define('is-'.$item->name, function ($user) use ($item){
-                return $user->hasRole($item->name);
-            });
-        }
+        // foreach (Role::all() as $item) {
+        //     Gate::define('is-'.$item->name, function ($user) use ($item){
+        //         return $user->hasRole($item->name);
+        //     });
+        // }
     }
 }
