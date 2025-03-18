@@ -13,9 +13,14 @@
                             <h3 class="card-title">Detail dan Berkas Pengajuan</h3>
                             <div class="float-right d-print-none">
                                 <a href="{{ route('surety-bond.index')}}" class="btn btn-sm btn-dark"><i class="fa fa-arrow-left mr-1"></i> Kembali</a>
-                                @if ($suretyBond->progres->last()->user_id == auth()->id())
+                                <button type="button" class="btn btn-sm btn-dark" onclick="window.print()"><i class="fa fa-print mr-1"></i> Cetak</button>
+                                @if ($suretyBond->progres->last()->user_id == auth()->id() 
+                                    || ($suretyBond->progres->last()->user_id == null 
+                                        && collect($suretyBond->progres)[$suretyBond->progres->count()-2]->user_id == auth()->id()
+                                    )
+                                )
                                     @if ($suretyBond->status == 'Proses')
-                                        <a href="#" class="btn btn-sm btn-dark ml-1" data-toggle="modal" data-target="#modalCatatan"><i class="fa fa-file mr-1"></i> Update Progres</a>
+                                        <a href="#" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#modalCatatan"><i class="fa fa-file mr-1"></i> Update Progres</a>
                                     @endif
                                 @endif
                             </div>
@@ -157,15 +162,9 @@
                                         </tr>
                                         <tr>
                                             <td width="10px">-</td>
-                                            <td width="85%">Surat Keterangan Domisili</td>
-                                            <td width="10px">:</td>
-                                            <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_umum_5 }}" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="10px">-</td>
                                             <td width="85%">Copy Neraca dan Laba Rugi Principal untuk 2 (dua) tahun terakhir</td>
                                             <td width="10px">:</td>
-                                            <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_umum_6 }}" /></td>
+                                            <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_umum_5 }}" /></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -188,35 +187,6 @@
                                             <td width=""></td>
                                             <td width="10px"></td>
                                             <td>&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td width=""></td>
-                                            <td width=""></td>
-                                            <td width="10px"></td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td width="85%" colspan="2"><b>Syarat Umum - Perorangan</b></td>
-                                            <td width="10px"></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="10px">-</td>
-                                            <td width="85%">Copy KTP (Kartu Tanda Penduduk)</td>
-                                            <td width="10px">:</td>
-                                            <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_perorangan_1 }}" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="10px">-</td>
-                                            <td width="85%">Copy Nomor Pokok Wajib Pajak (NPWP)</td>
-                                            <td width="10px">:</td>
-                                            <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_perorangan_2 }}" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="10px">-</td>
-                                            <td width="85%">Surat Keterangan Domisili</td>
-                                            <td width="10px">:</td>
-                                            <td><x-btn-lihat-berkas file="{{ $suretyBond->berkas_perorangan_3 }}" /></td>
                                         </tr>
                                         <tr>
                                             <td width=""></td>

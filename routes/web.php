@@ -16,6 +16,7 @@ Route::get('/', function(){
 Route::prefix('surety-bond')->group(function() {
     Route::get('/', [PublicHomeController::class, 'index'])->name('public-home.index');
     Route::post('/', [PublicHomeController::class, 'sendRequest'])->name('public-home.sendRequest');
+    Route::post('/{surety_bond}', [PublicHomeController::class, 'reupload'])->name('public-home.reupload');
     Route::get('/status/{slug}', [PublicHomeController::class, 'status'])->name('public-home.status');
 });
 
